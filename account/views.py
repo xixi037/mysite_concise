@@ -194,7 +194,12 @@ def get_status(request):
     mode = status_obj.mode
     date = str(status_obj.date).replace("-", "")
     apply_year = (status_obj.apply_year).split("-")[0]
-    status_dic = {'mode': mode, 'date': date, 'apply_year': apply_year}
+    base_path = os.path.join(BASE_PATH, 'models')
+    apply_path = os.path.join(base_path, '申请报告模板.doc')
+    middle_path = os.path.join(base_path, '中期报告模板.doc')
+    conclude_path = os.path.join(base_path, '结题报告模板.doc')
+    status_dic = {'mode': mode, 'date': date, 'apply_year': apply_year, 'apply_path': apply_path,
+                  'middle_path': middle_path, 'conclude_path': conclude_path}
     return JsonResponse(status_dic)
 
 
@@ -237,7 +242,7 @@ def upload_apply(request):
         path_dir['fullpath'] = filepath
         path_dir['filename'] = savename
         file_list.append(path_dir)
-    return render(request, "account/apply_upload.html", {"status": status,"filelist":file_list})
+    return render(request, "account/apply_upload.html", {"status": status, "filelist": file_list})
 
 
 @login_required(login_url='/account/login/')
@@ -269,13 +274,13 @@ def upload_middle(request):
             dest.close()
             UserProInfo.objects.filter(user=user, apply_year=apply_year).update(middle_status="1")
             status = "上传成功！"
-    file_list=[]
+    file_list = []
     if os.path.exists(filepath):
-        path_dir={}
-        path_dir['fullpath']=filepath
-        path_dir['filename']=savename
+        path_dir = {}
+        path_dir['fullpath'] = filepath
+        path_dir['filename'] = savename
         file_list.append(path_dir)
-    return render(request, "account/middle_upload.html", {"status": status,"filelist":file_list})
+    return render(request, "account/middle_upload.html", {"status": status, "filelist": file_list})
 
 
 @login_required(login_url='/account/login/')
@@ -365,7 +370,7 @@ def upload_conclude_file(request):
 
     savename = '结题报告_' + tutor + '_' + name + '_' + pro_name + '.doc'
     conclude_path = BASE_PATH + os.sep + 'conclude' + apply_year
-    path = os.path.join(conclude_path,savename)
+    path = os.path.join(conclude_path, savename)
     if os.path.exists(path):
         path_dir = {}
         path_dir["fullpath"] = path
@@ -383,4 +388,4 @@ def upload_conclude_file(request):
             path_dir["filename"] = i
             file_list.append(path_dir)
     return render(request, "account/conclude_file_upload.html",
-                  {'status': status, 'status1': status1, 'status2': status2, 'status3': status3,"filelist":file_list})
+                  {'status': status, 'status1': status1, 'status2': status2, 'status3': status3, "filelist": file_list})

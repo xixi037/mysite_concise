@@ -41,6 +41,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 {#                            <a class="dropdown-item" href="{% url 'account:my_pro_apply' %}">在线填写</a>#}
                             <a class="dropdown-item" href="{% url 'account:upload_apply' %}">上传文件</a>
+                            <a class="dropdown-item" id="apply_path" href="#">下载模板</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -51,6 +52,8 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 {#                            <a class="dropdown-item" href="{% url 'account:my_pro_middle' %}">在线填写</a>#}
                             <a class="dropdown-item" href="{% url 'account:upload_middle' %}">上传文件</a>
+{#                            <a class="dropdown-item" href="{% url 'download_file' %}?url=D:\models\中期报告模板.doc">下载模板</a>#}
+                            <a class="dropdown-item" id="middle_path" href="#">下载模板</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -62,6 +65,7 @@
 {#                            <a class="dropdown-item" href="{% url 'account:my_pro_conclude' %}">在线填写</a>#}
 {#                                                    <a class="dropdown-item" href="#">下载模板</a>#}
                             <a class="dropdown-item" href="{% url 'account:upload_conclude' %}">上传文件</a>
+                            <a class="dropdown-item" id="conclude_path" href="#">下载模板</a>
 {#                            <a class="dropdown-item" href="{% url 'account:upload_conclude_file' %}">上传文件</a>#}
                         </div>
                     </li>
@@ -83,8 +87,14 @@
             success: function (data) {
                 var mode = data['mode'];
                 var apply_year = data['apply_year'];
+                var apply_path = data['apply_path'];
+                var middle_path = data['middle_path'];
+                var conclude_path = data['conclude_path'];
                 $('#apply_year').val(apply_year);
-                console.log(apply_year);
+{#                console.log(apply_year);#}
+                $('#apply_path').attr('href',"{% url 'download_file' %}?url="+ apply_path);
+                $('#middle_path').attr('href',"{% url 'download_file' %}?url="+ middle_path);
+                $('#conclude_path').attr('href',"{% url 'download_file' %}?url="+ conclude_path);
 
                 if (mode == 1) {
                     $('#navbarDropdownMenuLink2').removeClass('disabled');
