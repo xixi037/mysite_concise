@@ -1,0 +1,48 @@
+{% extends 'manager_base.html' %}
+{% block title %}项目信息汇总{% endblock %}
+{% block content %}
+{#    {% for i in yearlist %}#}
+{#        <a href="{{ url }}?year={{ i.apply_year }}">{{ i.apply_year }}</a>#}
+{#    {% endfor %}#}
+    <br>
+    {#    <button type="button" class="btn btn btn-outline-secondary btn-sm" id="export">导出</button>#}
+    <form id="infolist">
+        {% csrf_token %}
+        <table class="table table-bordered">
+            <thead class="thead-light">
+            {% if infolist %}
+                <tr>
+                    <th>序号</th>
+                    <th>项目名称</th>
+                    <th>指导老师</th>
+                    <th>项目负责人</th>
+                    <th>负责人学号</th>
+                    <th>所在实验室</th>
+                    <th>成果形式</th>
+                    <th>评审结果</th>
+                    <th>申报年份</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in infolist %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ i.pro_name }}</td>
+                        <td>{{ i.tutor }}</td>
+                        <td>{{ i.name }}</td>
+                        <td>{{ i.user }}</td>
+                        <td>{{ i.lab }}</td>
+                        <td>{{ i.result_type }}</td>
+                        <td>{{ i.comment }}</td>
+                        <td>{{ i.apply_year }}</td>
+                    </tr>
+                {% endfor %}
+                {% else %}
+                暂无数据
+            {% endif %}
+            </tbody>
+        </table>
+    </form>
+{% endblock %}
+{% block script %}
+{% endblock %}

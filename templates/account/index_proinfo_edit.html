@@ -1,0 +1,50 @@
+{% extends 'index_base.html' %}
+{% block title %}我的项目信息{% endblock %}
+{% block content %}
+    <h1 class="text-center">修改项目信息</h1>
+    <form action="." method="post">
+        {% csrf_token %}
+        <input type="hidden" name="apply_year" id="apply_year" value="0" />
+        <table class="table table-sm">
+            <tr>
+                <td>学号：</td>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td>导师：</td>
+                <td>{{ userproinfo_form.tutor }}</td>
+            </tr>
+            <tr>
+                <td>项目名称：</td>
+                <td>{{ userproinfo_form.pro_name }}</td>
+            </tr>
+            <tr>
+                <td>成果形式：</td>
+                <td>{{ userproinfo_form.result_type }}</td>
+            </tr>
+            <tr>
+                <td>所用实验室：</td>
+                <td>{{ userproinfo_form.lab }}</td>
+            </tr>
+            <tr>
+                <td>成员人数（含负责人）：</td>
+                <td>{{ userproinfo_form.mem_num }}</td>
+            </tr>
+        </table>
+        <input type="submit" class="btn btn-primary btn-lg" value="提交" onclick="return check()">
+    </form>
+{% endblock %}
+{% block script %}
+    <script>
+        var check = function () {
+            var len = $("input").length;
+            console.log(len);
+            for (var i = 0; i < len; i++) {
+                if ($("input")[i].value == "") {
+                    alert("需要全部填写！");
+                    return false
+                }
+            }
+        };
+    </script>
+{% endblock %}

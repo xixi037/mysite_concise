@@ -1,0 +1,96 @@
+{% extends 'manager_base.html' %}
+{% block title %}项目信息汇总{% endblock %}
+{% block content %}
+    <h2 class="text-center text-secondary">项目信息汇总</h2>
+        {% for i in yearlist %}
+            <a href="{{ url }}?year={{ i.apply_year }}">{{ i.apply_year }}</a>
+        {% endfor %}
+    <br>
+    {#    <button type="button" class="btn btn btn-outline-secondary btn-sm" id="export">导出</button>#}
+    <form id="infolist">
+        {% csrf_token %}
+        <table class="table table-bordered">
+            <thead class="thead-light">
+            {% if infolist %}
+                <tr>
+                    <th>序号</th>
+                    <th>申报年份</th>
+                    <th>项目名称</th>
+                    <th>指导老师</th>
+                    <th>项目负责人</th>
+                    <th>负责人学号</th>
+                    <th>所在实验室</th>
+                    <th>成果形式</th>
+                    <th>评审结果</th>
+                    <th>修改</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in infolist %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ i.apply_year }}</td>
+                        <td>{{ i.pro_name }}</td>
+                        <td>{{ i.tutor }}</td>
+                        <td>{{ i.name }}</td>
+                        <td>{{ i.user }}</td>
+                        <td>{{ i.lab }}</td>
+                        <td>{{ i.result_type }}</td>
+                        <td id={{ i.id }}>{{ i.comment }}</td>
+                        <td><a id="{{ i.id }}" name="revise" href="javascript:" onclick="revise({{ i.id }})">修改</a></td>
+
+                    </tr>
+                {% endfor %}
+            {% else %}
+                暂无数据
+            {% endif %}
+            </tbody>
+        </table>
+    </form>
+{% endblock %}
+{% block script %}
+    <script>
+        $.ajaxSetup({
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+        });
+
+        function revise(user) {
+            $("#infolist").find('td[id=' + user + ']').html("<select>\n" +
+                "<option value=\"合格\">合格</option>\n" +
+                "<option value=\"不合格\">不合格</option>\n" +
+                "<option value=\"优秀\">优秀</option>\n" +
+                "<option value=\"三等奖\">三等奖</option>\n" +
+                "<option value=\"二等奖\">二等奖</option>\n" +
+                "<option value=\"一等奖\">一等奖</option>\n" +
+                "</select>");
+            var this_a = $("#infolist").find('a[id=' + user + ']');
+            this_a.html("保存");
+            this_a.attr("onclick", "save(" + user + ");");
+        }
+
+        function save(user) {
+            var comment = $("#infolist").find('td[id=' + user + ']').find('select').val();
+            $.ajax({
+                url: '{% url "manager:data_collection" %}',
+                type: "POST",
+                data: {"user": user, "comment": comment},
+                success: function (e) {
+                    if (e == "1") {
+                        alert("修改成功！");
+                        window.location.reload();
+                    }
+                    else {
+                        alert("修改失败！")
+                    }
+                },
+                error: function (e) {
+                    concole.log(e);
+                }
+
+            });
+            {#            alert($("#infolist").find('td[id='+user+']').find('select').val())#}
+        }
+
+    </script>
+{% endblock %}

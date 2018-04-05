@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录失败</title>
+    <link rel="stylesheet" href="/static/Bootstrap/css/bootstrap.css">
+    <style>
+        #login_wrong {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 290px;
+            height: 200px;
+            margin-left: -145px;
+            margin-top: -150px;
+        }
+    </style>
+</head>
+<body>
+<div id="login_wrong">
+    <p>账号或密码有误！</p>
+    <p>重新<a href="{% url 'account:user_login' %}">登录</a></p>
+</div>
+</body>
+</html>

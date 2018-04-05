@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}我的主页{% endblock %}</title>
+    {#    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">#}
+    <link rel="stylesheet" href="/static/Bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/static/Bootstrap/js/bootstrap.bundle.js"></script>
+    <script type="text/javascript" src="/static/Bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/js/theme/default/laydate.css?v=5.0.8">
+    <script type="text/javascript" src="/static/js/laydate.js"></script>
+    {% block style %}{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'manager:manager_home' %}">Home <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'manager:userlist' %}">管理用户信息</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        提交记录
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'manager:apply_infolist' %}">项目申请</a>
+                        <a class="dropdown-item" href="{% url 'manager:middle_infolist' %}">中期报告</a>
+                        <a class="dropdown-item" href="{% url 'manager:conclude_infolist' %}">结题报告</a>
+                        <a class="dropdown-item" href="{% url 'manager:others_infolist' %}">其他文件</a>
+                        <a class="dropdown-item" href="{% url 'manager:data_collection' %}">信息汇总</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        项目状态
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'manager:pro_mode' %}">提交模式</a>
+                        <a class="dropdown-item" href="{% url 'manager:pro_deadline' %}">申报截止日期</a>
+                        <a class="dropdown-item" href="{% url 'manager:pro_year' %}">申报年份</a>
+                        {#                        <a class="dropdown-item" href="/admin/chgpwd">修改密码</a>#}
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'manager:send_email' %}">发送邮件</a>
+                </li>
+            </ul>
+            <button class="btn btn-outline-primary my-2 my-sm-0" onclick="javascript:logout()">注销</button>
+        </div>
+    </div>
+</nav>
+{% block headline %}{% endblock %}
+<div class="container">{% block content %}{% endblock %}</div>
+<script>
+    var logout = function () {
+        window.location.href = "{% url 'account:user_logout' %}"
+    }
+</script>
+{% block script %}{% endblock %}
+</body>
+</html>

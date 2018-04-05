@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}上传文件{% endblock %}
+{% block content %}
+    <div class="container">
+        中期报告
+        <form enctype="multipart/form-data" action="." method="post">
+            {% csrf_token %}
+            <input type="file"
+                   accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                   name="middle" id="file">
+            {#            <input type="button" id="sub" value="提交">#}
+            <input type="submit" class="btn btn-primary btn-sm" value="提交" onclick="return check()">
+        </form>
+        <p style="color:red">{{ status }}</p>
+        {% for i in filelist %}
+            <a href="{% url 'download_file' %}?url={{ i.fullpath }}">{{ i.filename }}</a><br>
+        {% endfor %}
+    </div>
+
+{% endblock %}
+{% block script %}
+    <script>
+        var check = function () {
+            var len = $("input").length;
+            for (var i = 0; i < len; i++) {
+                if ($("input")[i].value == "") {
+                    alert("未选择上传文件！");
+                    return false
+                }
+            }
+        }
+    </script>
+{% endblock %}

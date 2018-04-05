@@ -1,0 +1,78 @@
+{% extends 'manager/infolist.html' %}
+{% block title %}项目信息{% endblock %}
+{% block headline %}
+    <h2 class="text-center text-secondary">结题报告提交情况</h2>
+{% endblock %}
+{% block script %}
+    {#    <script type="text/javascript" src="/static/js/jqpaginator.min.js"></script>#}
+    <script>
+        $.ajaxSetup({
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+        });
+        $("#checkAll").click(function () {
+            var isChecked = $(this).prop("checked");
+            $(".subCheckbox").prop("checked", isChecked);
+        });
+        $("#export").click(function () {
+            var data = $('#infolist').serializeArray();
+            console.log(JSON.stringify(data));
+            if (data.length > 1) {
+                $.ajax({
+                    url: '{% url "manager:write_to_conclude" %}',
+                    data: {
+                        'choicelist': JSON.stringify(data)
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        console.log(data);
+                        var pathlist = data['path'];
+                        for (var i = 0; i < pathlist.length; i++) {
+                            window.open('/download-file?url=' + pathlist[i]);
+                            console.log('第' + i.toString() + '次');
+                        }
+                        window.location.reload();
+
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+
+                });
+            }
+            else {
+                alert('没有选中任何选项！')
+            }
+        });
+{#        $("#modify").click(function () {#}
+{#            var data = $('#infolist').serializeArray();#}
+{#            console.log(JSON.stringify(data));#}
+{#            if (data.length > 1) {#}
+{#                $.ajax({#}
+{#                    url: '{% url "manager:modify_sub_status" %}',#}
+{#                    data: {#}
+{#                        'choicelist': JSON.stringify(data),#}
+{#                        'class': "conclude"#}
+{#                    },#}
+{#                    type: 'POST',#}
+{#                    success: function (data) {#}
+{#                        if (data == 'blank') {#}
+{#                            alert('没有选择！');#}
+{#                        }#}
+{#                        else {#}
+{#                            alert("更改成功！");#}
+{#                            window.location.reload();#}
+{#                        }#}
+{##}
+{#                    },#}
+{#                    error: function (data) {#}
+{#                        console.log(data);#}
+{#                    }#}
+{##}
+{#                });#}
+{#            }#}
+{#            else {#}
+{#                alert('没有选中任何选项！')#}
+{#            }#}
+{#        });#}
+    </script>
+{% endblock %}
