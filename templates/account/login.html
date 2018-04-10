@@ -5,6 +5,15 @@
     <title>登录界面</title>
     <link rel="stylesheet" href="/static/Bootstrap/css/bootstrap.css">
     <style>
+         #login_title{
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            width: 500px;
+            height: 200px;
+            margin-left: -250px;
+            margin-top: -150px;
+        }
         #login_form {
             position: absolute;
             top: 50%;
@@ -18,9 +27,10 @@
 </head>
 <body>
 <div id="login_div">
+    <div id="login_title"><h2 style="text-align: center"><b>深圳大学创新发展基金项目</b></h2></div>
     <form action="." method="post" id="login_form">
         {% csrf_token %}
-        <h1 style="text-align: center">登录</h1>
+        <h3 style="text-align: center">登录</h3>
         <hr>
         <div class="input-group">
         <span class="input-group-addon" id="basic-addon1">
